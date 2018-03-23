@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {%load staticfiles%}
+    <link rel="stylesheet" href="{% static 'first_app/style.css' %}" media="screen" title="no title"  charset="utf-8">
+
+    <title>Document</title>
+</head>
+<body>
+    <a href="/"><button class="button">Home</button></a>
+    <h1> {{ course.name }} Forum</h1>
+    <h2>Description: {{ course.description }}</h2>
+    Post a comment!
+    <form action="/addcomment" method="post">
+        {% csrf_token %}
+        Your Name:
+        <input type="text" name="author">
+        Your Comment:
+        <input type="text" name="comment">
+        <input type="hidden" name="courseid" value="{{course.id}}">
+
+        <button class="button">Submit</button>
+    
+    </form>
+
+    {% for x in comments %}
+        {% if x.course.id == course.id    %}
+            <p>{{x.author}} @{{x.created_at}}</p>
+            <h3>{{x.comment}}</h3>
+        {% endif %}
+    {% endfor %}
+
+</body>
+</html>
